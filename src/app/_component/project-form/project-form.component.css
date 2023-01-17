@@ -1,0 +1,12 @@
+  form, .calculateButton{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 10px;
+  }
+  
+  mat-form-field  {
+    width: 100%;
+    margin: 2px;
+    flex: 1 1 50%;
+  }
