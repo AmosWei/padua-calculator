@@ -1,1 +1,40 @@
-<p>project-table works!</p>
+<div style="overflow: scroll;">
+    <table *ngIf="showTable" style="width: 100%; border: 1px solid black">
+       <tr>
+          <th></th>
+          <th *ngFor="let ele of calculatedData">{{ele.year}}</th>
+       </tr>
+       <tr>
+          <td>Age</td>
+          <td *ngFor="let ele of calculatedData">{{ele.age}}</td>
+       </tr>
+       <tr>
+          <td>Start Balance</td>
+          <td *ngFor="let ele of calculatedData">${{ele.startBalalce}}</td>
+       </tr>
+       <tr>
+          <td>Contributions</td>
+          <td *ngFor="let ele of calculatedData">${{ele.contribution}}</td>
+       </tr>
+       <tr>
+          <td>Earnings</td>
+          <td *ngFor="let ele of calculatedData">${{ele.earnings}}</td>
+       </tr>
+       <tr>
+          <td>Fees</td>
+          <td *ngFor="let ele of calculatedData">${{ele.fees}}</td>
+       </tr>
+       <tr>
+          <td>Tax</td>
+          <td *ngFor="let ele of calculatedData">${{ele.tax}}</td>
+       </tr>
+       <tr>
+          <td>Withdrawals</td>
+          <td *ngFor="let ele of calculatedData">${{ele.withdrawals}}</td>
+       </tr>
+       <tr>
+          <td>End Balance</td>
+          <td *ngFor="let ele of calculatedData">${{ele.endBalance}}</td>
+       </tr>
+    </table>
+ </div>

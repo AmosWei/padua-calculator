@@ -1,49 +1,36 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { calculatedData } from '../_interface/CalculatedData';
-import { CapitalGrowForm } from '../_interface/CapitalGrowForm';
-import { ChartConfiguration } from 'chart.js';
+import { BehaviorSubject } from 'rxjs';
+import { BirthYear, StartBalance, YearUntil } from '../env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  years: number[] = [];
-  age: number[] = [];
-  calculatedData: calculatedData[] = [];
+  private years: number[] = [];
+  private calculatedData: calculatedData[] = [];
+
+  public $calculatedData = new BehaviorSubject<calculatedData[]>([]);
 
   //Assuming brith year is 1977
-  private birthYear: number = 1977
+  private birthYear: number = BirthYear;
 
   //Assuming start balance is $300000
-  private startBalance = 300000;
-
-  public lineChartData: ChartConfiguration['data'] = {
-    datasets: [
-      {
-        data: [],
-        label: 'Start Balance',
-        backgroundColor: 'rgba(148,159,177,0.2)',
-        borderColor: 'rgba(148,159,177,1)',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-        fill: 'origin',
-      }
-    ],
-    labels: []
-  };
+  private startBalance = StartBalance;
 
   constructor() {
-    for(let i = 2022; i <= 2070; i++){
+    for(let i = 2020; i <= YearUntil; i++){
       this.years.push(i);
     }
   }
 
+  /**
+ * @param FormGroup
+ * @usage Calculator the data from form group input
+ */
   public calculateProjectionData(form: FormGroup){
-
     let salary = form.controls['salary'].value;
     if(!salary) {
       return;
@@ -56,12 +43,9 @@ export class DataService {
     let taxRate = form.controls['taxRate'].value / 100;
     let withdrawalRate = form.controls['withdrawalRate'].value / 100;
     let ageStopContri = form.controls['ageStopContri'].value;
-    console.log(ageStopContri);
     let ageStartWithdrawals = form.controls['ageStartWithdrawals'].value;
-    console.log(ageStartWithdrawals);
 
-    
-    this.years.forEach(year => {
+    this.years.forEach((year,index) => {
       let calculatedDataElement: calculatedData = {
         year: 0,
         age: 0,
@@ -80,15 +64,20 @@ export class DataService {
       calculatedDataElement.startBalalce = this.startBalance;
 
       //If current age smaller then the agt stop contribution then add the contribution
-      if(calculatedDataElement.age < ageStopContri){
-        calculatedDataElement.contribution = Math.round((salary*(contributionRate)*(1 + inflationRate)));
+      if(calculatedDataElement.age <= ageStopContri){
+        if(index == 0){
+          calculatedDataElement.contribution = Math.round(salary*(contributionRate));
+        }else {
+          let lastYearContribution: number = this.calculatedData[index - 1].contribution;
+          calculatedDataElement.contribution = Math.round(lastYearContribution*(1 + inflationRate));
+        }
       }
       calculatedDataElement.earnings = Math.round((calculatedDataElement.contribution + this.startBalance)*earningsRate);
-      calculatedDataElement.tax = Math.round(calculatedDataElement.earnings + calculatedDataElement.contribution)*taxRate;
-      calculatedDataElement.fees = Math.round(this.startBalance*feesRate);
+      calculatedDataElement.tax = Math.round((calculatedDataElement.earnings + calculatedDataElement.contribution)*taxRate);
+      calculatedDataElement.fees = Math.round((this.startBalance + calculatedDataElement.contribution + calculatedDataElement.earnings)*feesRate);
 
       //If current age bigger then the agt start withdrawal then add the withdrawal
-      if(calculatedDataElement.age > ageStartWithdrawals){
+      if(calculatedDataElement.age >= ageStartWithdrawals){
         calculatedDataElement.withdrawals = Math.round(calculatedDataElement.startBalalce*withdrawalRate);
       }
 
@@ -101,51 +90,14 @@ export class DataService {
       this.calculatedData.push(calculatedDataElement);
     })
 
-    this.lineChartData = {
-      datasets: [
-        {
-          data: this.getYData(),
-          label: 'Start Balance',
-          backgroundColor: 'rgba(148,159,177,0.2)',
-          borderColor: 'rgba(148,159,177,1)',
-          pointBackgroundColor: 'rgba(148,159,177,1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-          fill: 'origin',
-        }
-      ],
-      labels: this.getXData()
-    };
+    //Push data to subject
+    this.$calculatedData.next(this.calculatedData);
   }
 
-  getYData(){
-    return this.calculatedData.map(ele => ele.startBalalce);
-  }
-
-  getXData(){
-    return this.calculatedData.map(ele => ele.year);
-  }
-
-  reset(){
+  public reset(){
     this.calculatedData = [];
-    this.startBalance = 300000;
-    this.lineChartData = {
-      datasets: [
-        {
-          data: [],
-          label: 'Start Balance',
-          backgroundColor: 'rgba(148,159,177,0.2)',
-          borderColor: 'rgba(148,159,177,1)',
-          pointBackgroundColor: 'rgba(148,159,177,1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-          fill: 'origin',
-        }
-      ],
-      labels: []
-    };
+    this.startBalance = StartBalance;
+    this.$calculatedData.next([]);
   }
 
   

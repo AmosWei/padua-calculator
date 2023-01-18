@@ -14,13 +14,13 @@ export class ProjectFormComponent {
   percentagePattern = /^\d+%$/;
 
   formData: CapitalGrowForm = {
-    salary: '100000',
-    contributionRate: '9.5',
-    inflationRate: '3',
-    earningsRate: '7.5',
-    feesRate: '2',
-    taxRate: '15',
-    withdrawalRate: '5',
+    salary: '',
+    contributionRate: '',
+    inflationRate: '',
+    earningsRate: '',
+    feesRate: '',
+    taxRate: '',
+    withdrawalRate: '',
     ageStopContri: '',
     ageStartWithdrawals: ''
 
@@ -28,11 +28,6 @@ export class ProjectFormComponent {
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
     this.form = this.fb.group(this.formData);
-  }
-
-  ngOnInit(): void {
-    //debuging only, exposure the component to Window
-    window['form'] = this;
   }
 
   reset(){
@@ -52,10 +47,5 @@ export class ProjectFormComponent {
     else{
       return false;
     }  
-  }
-
-  ngOnDestroy(): void {
-    //clean up when destroy
-    window['form'] = '';
   }
 }
