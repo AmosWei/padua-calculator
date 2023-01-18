@@ -10,31 +10,31 @@
        </tr>
        <tr>
           <td>Start Balance</td>
-          <td *ngFor="let ele of calculatedData">${{ele.startBalalce}}</td>
+          <td *ngFor="let ele of calculatedData">${{ele.startBalalce | numberFormatter}} </td>
        </tr>
        <tr>
           <td>Contributions</td>
-          <td *ngFor="let ele of calculatedData">${{ele.contribution}}</td>
+          <td *ngFor="let ele of calculatedData">${{ele.contribution | numberFormatter}}</td>
        </tr>
        <tr>
           <td>Earnings</td>
-          <td *ngFor="let ele of calculatedData">${{ele.earnings}}</td>
+          <td *ngFor="let ele of calculatedData">${{ele.earnings | numberFormatter}}</td>
        </tr>
        <tr>
           <td>Fees</td>
-          <td *ngFor="let ele of calculatedData">${{ele.fees}}</td>
+          <td *ngFor="let ele of calculatedData">${{ele.fees | numberFormatter}}</td>
        </tr>
        <tr>
           <td>Tax</td>
-          <td *ngFor="let ele of calculatedData">${{ele.tax}}</td>
+          <td *ngFor="let ele of calculatedData">${{ele.tax | numberFormatter}}</td>
        </tr>
        <tr>
           <td>Withdrawals</td>
-          <td *ngFor="let ele of calculatedData">${{ele.withdrawals}}</td>
+          <td *ngFor="let ele of calculatedData">${{ele.withdrawals | numberFormatter}}</td>
        </tr>
        <tr>
           <td>End Balance</td>
-          <td *ngFor="let ele of calculatedData">${{ele.endBalance}}</td>
+          <td *ngFor="let ele of calculatedData">${{ele.endBalance | numberFormatter}}</td>
        </tr>
     </table>
  </div>

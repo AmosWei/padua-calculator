@@ -3,6 +3,9 @@
 By Amos Wei, 18 Jan 2023
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.1.
 
+Package used
+1. ng2-chart
+2. Angular material
 
 ## Project structure
 
@@ -33,7 +36,9 @@ app
  ┃ ┗ percentage-suffix.directive.ts        => A customise directive for adding '%' after rates value
  ┣ _interface
  ┃ ┣ CalculatedData.ts                     => Define the calculatedData interfaces
- ┃ ┗ CapitalGrowForm.ts                    => Define the FormData interfaces
+ ┃ ┗ CapitalGrowForm.ts   
+ ┣ _pipe                 
+ ┃ ┣ number-formatter.pipe.ts              => Format number to comma comma separated 
  ┣ _service
  ┃ ┣ data.service.spec.ts
  ┃ ┗ data.service.ts                       => The common service for doing calculation and provide calculated Data

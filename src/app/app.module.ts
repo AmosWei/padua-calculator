@@ -13,7 +13,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { ProjectTableComponent } from './_component/project-table/project-table.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PercentageSuffixDirective } from './_directive/percentage-suffix.directive';
-import { HomeComponent } from './home/home.component'
+import { HomeComponent } from './home/home.component';
+import { NumberFormatterPipe } from './_pipe/number-formatter.pipe'
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,8 @@ import { HomeComponent } from './home/home.component'
     ProjectChartComponent,
     ProjectTableComponent,
     PercentageSuffixDirective,
-    HomeComponent
+    HomeComponent,
+    NumberFormatterPipe
   ],
   imports: [
     BrowserModule,
