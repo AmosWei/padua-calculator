@@ -8,7 +8,7 @@ import { DataService } from 'src/app/_service/data.service';
   styleUrls: ['./project-table.component.css']
 })
 export class ProjectTableComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+
   public calculatedData: calculatedData[] = [];
   public showTable: boolean = false;
   

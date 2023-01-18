@@ -10,10 +10,10 @@ import { DataService } from 'src/app/_service/data.service'
 })
 export class ProjectFormComponent {
 
-  form: FormGroup;
-  percentagePattern = /^\d+%$/;
+  public form: FormGroup;
+  public percentagePattern = /^\d+%$/;
 
-  formData: CapitalGrowForm = {
+  public formData: CapitalGrowForm = {
     salary: '',
     contributionRate: '',
     inflationRate: '',
@@ -30,18 +30,18 @@ export class ProjectFormComponent {
     this.form = this.fb.group(this.formData);
   }
 
-  reset(){
+  public reset(){
     this.form.reset();
     this.dataService.reset();
   }
 
-  calculate(){
+  public calculate(){
     this.dataService.reset();
     this.dataService.calculateProjectionData(this.form);
   }
 
 
-  isValid(value: number): boolean{
+  public isValid(value: number): boolean{
     if(isNaN(value)) {
       return true;}
     else{
